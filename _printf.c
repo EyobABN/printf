@@ -14,8 +14,6 @@ int _printf(const char *format, ...)
 	int i, char_count;
 	char *s;
 
-	if (format == NULL)
-		return (0);
 	va_start(ap, format);
 	char_count = 0;
 	i = 0;
@@ -27,6 +25,8 @@ int _printf(const char *format, ...)
 			char_count++;
 			i += 2;
 		}
+		else if (format[i] == '%' && format[i + 1] == '%')
+			i++;
 		else if (format[i] == '%' && format[i + 1] == 's')
 		{
 			s = va_arg(ap, char *);
@@ -49,5 +49,4 @@ int _printf(const char *format, ...)
 	}
 	va_end(ap);
 	return (char_count);
-
 }
