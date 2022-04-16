@@ -12,7 +12,6 @@ int _printf(const char *format, ...)
 {
 	va_list ap;
 	int i, char_count;
-	char *s;
 
 	va_start(ap, format);
 	char_count = 0;
