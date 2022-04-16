@@ -1,4 +1,5 @@
 #include "main.h"
+#include <limits.h>
 
 /**
  * print_number - prints an integer recursively using _putchar
@@ -9,6 +10,15 @@
  */
 void print_number(int n, int *char_count)
 {
+	if (n == INT_MIN)
+	{
+		_putchar('-');
+		_putchar('2');
+		(*char_count) += 2;
+		print_number((INT_MAX % 2000000000) + 1, char_count);
+		return;
+	}
+
 	if (n < 0)
 	{
 		_putchar('-');
