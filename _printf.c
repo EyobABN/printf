@@ -26,13 +26,14 @@ int _printf(const char *format, ...)
 			i += 2;
 		}
 		else if (format[i] == '%' && format[i + 1] == '%')
-			i++;
+		{
+			_putchar('%');
+			char_count++;
+			i += 2;
+		}
 		else if (format[i] == '%' && format[i + 1] == 's')
 		{
-			s = va_arg(ap, char *);
-			if (s == NULL)
-				s = "(null)";
-			print_string(s, &char_count);
+			print_string(va_arg(ap, char *), &char_count);
 			i += 2;
 		}
 		else if (format[i] == '%' && (format[i + 1] == 'd' || format[i + 1] == 'i'))
