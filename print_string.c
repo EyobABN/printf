@@ -7,13 +7,13 @@
  *
  * Return: void
  */
-void print_string(char *s, int char_count)
+void print_string(char *s, int *char_count)
 {
 	int i;
 
 	for (i = 0; s[i] != '\0'; i++)
 	{
 		_putchar(s[i]);
-		char_count++;
+		(*char_count)++;
 	}
 }

@@ -32,12 +32,12 @@ int _printf(const char *format, ...)
 			s = va_arg(ap, char *);
 			if (s == NULL)
 				s = "(null)";
-			print_string(s, char_count);
+			print_string(s, &char_count);
 			i += 2;
 		}
 		else if (format[i] == '%' && (format[i + 1] == 'd' || format[i + 1] == 'i'))
 		{
-			print_number(va_arg(ap, int), char_count);
+			print_number(va_arg(ap, int), &char_count);
 			i += 2;
 		}
 		else
