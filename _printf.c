@@ -76,6 +76,8 @@ int _printf(const char *format, ...)
 				process_print_string(va_arg(ap, char *), &char_count, &i, 2);
 			else if (format[i + 1] == 'd' || format[i + 1] == 'i')
 				process_print_number(va_arg(ap, int), &char_count, &i, 2);
+			else
+				process_putchar(format[i], &char_count, &i, 1);
 		}
 		else
 			process_putchar(format[i], &char_count, &i, 1);
