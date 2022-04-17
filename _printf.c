@@ -66,14 +66,17 @@ int _printf(const char *format, ...)
 	i = 0;
 	while (format[i] != '\0')
 	{
-		if (format[i] == '%' && format[i + 1] == 'c')
-			process_putchar(va_arg(ap, int), &char_count, &i, 2);
-		else if (format[i] == '%' && format[i + 1] == '%')
-			process_putchar('%', &char_count, &i, 2);
-		else if (format[i] == '%' && format[i + 1] == 's')
-			process_print_string(va_arg(ap, char *), &char_count, &i, 2);
-		else if (format[i] == '%' && (format[i + 1] == 'd' || format[i + 1] == 'i'))
-			process_print_number(va_arg(ap, int), &char_count, &i, 2);
+		if (format[i] == '%')
+		{
+			if (format[i + 1] == 'c')
+				process_putchar(va_arg(ap, int), &char_count, &i, 2);
+			else if (format[i + 1] == '%')
+				process_putchar('%', &char_count, &i, 2);
+			else if (format[i + 1] == 's')
+				process_print_string(va_arg(ap, char *), &char_count, &i, 2);
+			else if (format[i + 1] == 'd' || format[i + 1] == 'i')
+				process_print_number(va_arg(ap, int), &char_count, &i, 2);
+		}
 		else
 			process_putchar(format[i], &char_count, &i, 1);
 	}
