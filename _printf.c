@@ -51,6 +51,55 @@ void process_print_number(int n, int *char_count, int *i, int inc)
 }
 
 /**
+ * do_printf - processes the formatted printing
+ * @format: the format string
+ * @ap: the va_list list of arguments
+ *
+ * Return: the number of characters printed
+ */
+int do_printf(const char *format, va_list *ap)
+{
+	int i, char_count;
+
+	char_count = 0;
+	i = 0;
+	while (format[i] != '\0')
+	{
+		if (format[i] != '%')
+		{
+			process_putchar(format[i], &char_count, &i, 1);
+			continue;
+		}
+		i++;
+		if (format[i] == '%')
+		{
+			process_putchar('%', &char_count, &i, 1);
+			continue;
+		}
+		switch (format[i])
+		{
+			case 'c':
+				process_putchar(va_arg(*ap, int), &char_count, &i, 1);
+				break;
+			case 's':
+				process_print_string(va_arg(*ap, char *), &char_count, &i, 1);
+				break;
+			case 'd':
+			case 'i':
+				process_print_number(va_arg(*ap, int), &char_count, &i, 1);
+				break;
+			case '\0':
+				i--;
+				break;
+			default:
+				process_putchar(format[i], &char_count, &i, 1);
+		}
+	}
+	return (char_count);
+}
+
+
+/**
  * _printf - a printf function
  * @format: the format
  *
@@ -58,30 +107,11 @@ void process_print_number(int n, int *char_count, int *i, int inc)
  */
 int _printf(const char *format, ...)
 {
+	int char_count;
 	va_list ap;
-	int i, char_count;
 
 	va_start(ap, format);
-	char_count = 0;
-	i = 0;
-	while (format[i] != '\0')
-	{
-		if (format[i] == '%')
-		{
-			if (format[i + 1] == 'c')
-				process_putchar(va_arg(ap, int), &char_count, &i, 2);
-			else if (format[i + 1] == '%')
-				process_putchar('%', &char_count, &i, 2);
-			else if (format[i + 1] == 's')
-				process_print_string(va_arg(ap, char *), &char_count, &i, 2);
-			else if (format[i + 1] == 'd' || format[i + 1] == 'i')
-				process_print_number(va_arg(ap, int), &char_count, &i, 2);
-			else
-				process_putchar(format[i], &char_count, &i, 1);
-		}
-		else
-			process_putchar(format[i], &char_count, &i, 1);
-	}
+	char_count = do_printf(format, &ap);
 	va_end(ap);
 	return (char_count);
 }
