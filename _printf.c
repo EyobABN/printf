@@ -92,6 +92,7 @@ int do_printf(const char *format, va_list *ap)
 				i--;
 				break;
 			default:
+				process_putchar('%', &char_count, &i, 0);
 				process_putchar(format[i], &char_count, &i, 1);
 		}
 	}
