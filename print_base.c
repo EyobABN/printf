@@ -1,5 +1,5 @@
 #include "main.h"
-#define MAXBUF (sizeof(long int) * 8)
+#define MAXBUF (1024)
 
 /**
  * print_base - prints a number
@@ -11,13 +11,13 @@
  *
  * Return: void
  */
-void print_base(register unsigned int u, register int base,
+void print_base(unsigned int u, int base,
 		int *char_count, int *i, int inc)
 {
 	char buf[MAXBUF];
 
-	register char *p = &buf[MAXBUF - 1];
-	static const char digits[] = "0123456789abcdef";
+	char *p = &buf[MAXBUF - 1];
+	static const char digits[] = "01";
 
 	do {
 		*p-- = digits[u % base];
@@ -27,7 +27,7 @@ void print_base(register unsigned int u, register int base,
 	while (++p != &buf[MAXBUF])
 	{
 		_putchar(*p);
-		(*char_count) += 2;
-		*i += inc;
+		(*char_count) += 1;
 	}
+	*i += inc;
 }

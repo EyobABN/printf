@@ -2,7 +2,7 @@
 #include <stdarg.h>
 #include <string.h>
 
-#define MAXBUF (sizeof(long int) * 8)
+#define MAXBUF (1024)
 
 /**
  * print_num2 - second half of print_num function
