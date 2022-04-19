@@ -14,10 +14,12 @@
  */
 int do_printf(const char *format, va_list *ap)
 {
-	int i, char_count, length, prec, ladjust, plus_sign, sign_char,
-	    altfmt, truncate, capitals;
+	int i, j, char_count, length, prec, ladjust, plus_sign, sign_char,
+	    altfmt, truncate, capitals, is_cstm;
 	char padc;
+	char non_cstm[] = "csdibuoxXp";
 
+	is_cstm = 1;
 	char_count = 0;
 	i = 0;
 	while (format[i] != '\0')
@@ -42,7 +44,7 @@ int do_printf(const char *format, va_list *ap)
 		altfmt = 0;
 
 		while (1)
-		{
+		{ 
 			if (format[i] == '#')
 				altfmt = 1;
 			else if (format[i] == '-')
@@ -104,6 +106,17 @@ int do_printf(const char *format, va_list *ap)
 		truncate = 0;
 		capitals = 0;
 
+		for (j = 0; non_cstm[j] != '\0'; j++)
+		{
+			if (format[i] == non_cstm[j])
+				is_cstm = 0;
+		}
+		if (is_cstm == 1)
+		{
+			altfmt = 0;
+			plus_sign = 0;
+		}
+	
 		switch (format[i])
 		{
 			case 'b':
