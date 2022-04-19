@@ -1,6 +1,6 @@
 .TH man 1 "17 April 2022" "0.1" "Custom _printf function"
 .SH NAME
-.B _printf - an implementation of printf function
+.B _printf - an implementation of _printf function
 -
 .SH SYNOPSIS
 .B #include \fB"main.h"
@@ -282,4 +282,4 @@ man page printf(3).
 
 
 .SH AUTHOR
-Eyob Alamerew, Nebil Abdulfetah 
+Eyob Alamerew, Nebil Abdulfetah
