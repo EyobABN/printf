@@ -115,6 +115,9 @@ int do_printf(const char *format, va_list *ap)
 			case 's':
 				process_print_string(va_arg(*ap, char *), &char_count, &i, 1);
 				break;
+			case 'S':
+				process_print_String(va_arg(*ap, char *), &char_count, &i, 1);
+				break;
 			case 'd':
 			case 'i':
 				process_print_number(va_arg(*ap, int), &char_count, &i, 1);
