@@ -137,7 +137,7 @@ int do_printf(const char *format, va_list *ap)
 				break;
 			case 'X':
 				print_unsigned_int(ap, sign_char, 16, &char_count, &i, 1,
-						truncate, altfmt, capitals, length, ladjust, padc);
+						truncate, altfmt, 16, length, ladjust, padc);
 				break;
 			case '\0':
 				i--;
