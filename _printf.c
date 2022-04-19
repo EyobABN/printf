@@ -2,53 +2,8 @@
 #include <stdarg.h>
 #include <stddef.h>
 
-/**
- * process_putchar - processes a _putchar call
- * @c: the character to be written
- * @char_count: the character count so far
- * @i: the index
- * @inc: the value the index is to be incremented by
- *
- * Return: void
- */
-void process_putchar(char c, int *char_count, int *i, int inc)
-{
-	_putchar(c);
-	(*char_count)++;
-	*i += inc;
-}
-
-/**
- * process_print_string - handles printing with the print_string
- * @s: the string
- * @char_count: the char count so far
- * @i: the index so far
- * @inc: the value the index is to be incremented by
- *
- * Return: void
- */
-void process_print_string(char *s, int *char_count, int *i, int inc)
-{
-		if (s == NULL)
-			s = "(null)";
-		print_string(s, char_count);
-		*i += inc;
-}
-
-/**
- * process_print_number - processes the print_number function
- * @n: the number to be printed
- * @char_count: the char count so far
- * @i: the index so far
- * @inc: the value the index is to be incremented by
- *
- * Return: void
- */
-void process_print_number(int n, int *char_count, int *i, int inc)
-{
-	print_number(n, char_count);
-	*i += inc;
-}
+#define isdigit(d) ((d) >= '0' && (d) <= '9')
+#define ctod(c) ((c) - '0')
 
 /**
  * do_printf - processes the formatted printing
@@ -59,7 +14,9 @@ void process_print_number(int n, int *char_count, int *i, int inc)
  */
 int do_printf(const char *format, va_list *ap)
 {
-	int i, char_count;
+	int i, char_count, length, prec, ladjust, plus_sign, sign_char,
+	    altfmt, truncate, capitals;
+	char padc;
 
 	char_count = 0;
 	i = 0;
@@ -76,8 +33,82 @@ int do_printf(const char *format, va_list *ap)
 			process_putchar('%', &char_count, &i, 1);
 			continue;
 		}
+		length = 0;
+		prec = -1;
+		ladjust = 0;
+		padc = ' ';
+		plus_sign = 0;
+		sign_char = 0;
+		altfmt = 0;
+
+		while (1)
+		{
+			if (format[i] == '#')
+				altfmt = 1;
+			else if (format[i] == '-')
+				ladjust = 1;
+			else if (format[i] == '+')
+				plus_sign = '+';
+			else if (format[i] == ' ')
+			{
+				if (plus_sign == 0)
+					plus_sign = ' ';
+			}
+			else
+				break;
+			i++;
+		}
+		if (format[i] == '0')
+		{
+			padc = '0';
+			i++;
+		}
+		if (isdigit(format[i]))
+		{
+			while (isdigit(format[i]))
+			{
+				length = 10 * length + ctod(format[i]);
+				i++;
+			}
+		}
+		else if (format[i] == '*')
+		{
+			length = va_arg(*ap, int);
+			i++;
+			if (length < 0)
+			{
+				ladjust = !ladjust;
+				length = -length;
+			}
+		}
+		if (format[i] == '.')
+		{
+			i++;
+			if (isdigit(format[i]))
+			{
+				prec = 0;
+				while (isdigit(format[i]))
+				{
+					prec = 10 * prec + ctod(format[i]);
+					i++;
+				}
+			}
+			else if (format[i] == '*')
+			{
+				prec = va_arg(*ap, int);
+				i++;
+			}
+		}
+		if (format[i] == 'l')
+			i++;
+		truncate = 0;
+		capitals = 0;
+
 		switch (format[i])
 		{
+			case 'b':
+				print_base(va_arg(*ap, int), 2, &char_count, &i, 1);
+				break;
 			case 'c':
 				process_putchar(va_arg(*ap, int), &char_count, &i, 1);
 				break;
@@ -88,11 +119,31 @@ int do_printf(const char *format, va_list *ap)
 			case 'i':
 				process_print_number(va_arg(*ap, int), &char_count, &i, 1);
 				break;
+			case 'o':
+			case 'O':
+				print_unsigned_int(ap, sign_char, 8, &char_count, &i, 1,
+						truncate, altfmt, capitals, length, ladjust, padc);
+				break;
+			case 'u':
+			case 'U':
+				print_unsigned_int(ap, sign_char, 10, &char_count, &i, 1,
+						truncate, altfmt, capitals, length, ladjust, padc);
+				break;
+			case 'p':
+			case 'x':
+				altfmt = (format[i] == 'p' ? 1 : altfmt);
+				print_unsigned_int(ap, sign_char, 16, &char_count, &i, 1,
+						truncate, altfmt, capitals, length, ladjust, padc);
+				break;
+			case 'X':
+				print_unsigned_int(ap, sign_char, 16, &char_count, &i, 1,
+						truncate, altfmt, capitals, length, ladjust, padc);
+				break;
 			case '\0':
 				i--;
 				break;
 			default:
-				process_putchar('%', &char_count, &i, 0);
+				process_putchar(format[i - 1], &char_count, &i, 0);
 				process_putchar(format[i], &char_count, &i, 1);
 		}
 	}
