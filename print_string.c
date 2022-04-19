@@ -1,9 +1,9 @@
 #include "main.h"
 
 /**
- * print_string - prints the string
+ * print_string - prints a string
  * @s: the string to be printed
- * @char_count: the number of chars printed so far
+ * @char_count: the chars printed count
  *
  * Return: void
  */
