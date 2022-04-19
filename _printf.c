@@ -44,7 +44,7 @@ int do_printf(const char *format, va_list *ap)
 		altfmt = 0;
 
 		while (1)
-		{ 
+		{
 			if (format[i] == '#')
 				altfmt = 1;
 			else if (format[i] == '-')
@@ -116,7 +116,6 @@ int do_printf(const char *format, va_list *ap)
 			altfmt = 0;
 			plus_sign = 0;
 		}
-	
 		switch (format[i])
 		{
 			case 'b':
