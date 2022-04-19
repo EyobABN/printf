@@ -6,8 +6,8 @@
 
 /**
  * print_num2 - second half of print_num function
- * @sign_char: sign char
- * @char_count: char count
+ * @sign_char: sign character
+ * @char_count: character count
  * @i: index
  * @inc: increment
  * @length: length
