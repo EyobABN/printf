@@ -1,2 +1,2 @@
 # printf
-printf project for ALX
+printf project for ALX group project
