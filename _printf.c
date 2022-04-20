@@ -154,6 +154,12 @@ int do_printf(const char *format, va_list *ap)
 				print_unsigned_int(ap, sign_char, 16, &char_count, &i, 1,
 						truncate, altfmt, 16, length, ladjust, padc);
 				break;
+			case 'r':
+				process_print_rstring(va_arg(*ap, char *), &char_count, &i, 1);
+				break;
+			case 'R':
+				process_print_rot13ed(va_arg(*ap, char *), &char_count, &i, 1);
+				break;
 			case '\0':
 				i--;
 				break;

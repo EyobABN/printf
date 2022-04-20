@@ -50,6 +50,23 @@ void process_print_String(char *s, int *char_count, int *i, int inc)
 		print_String(s, char_count);
 		*i += inc;
 }
+
+/**
+ * process_print_rstring - handles printing for the %S conversion specifier
+ * @s: the string
+ * @char_count: the char count so far
+ * @i: the index so far
+ * @inc: the value the index is to be incremented by
+ *
+ * Return: void
+ */
+void process_print_rstring(char *s, int *char_count, int *i, int inc)
+{
+	if (s == NULL)
+		s = "(null)";
+	print_rstring(s, char_count);
+	*i += inc;
+}
 /**
  * process_print_number - processes the print_number function
  * @n: the number to be printed
